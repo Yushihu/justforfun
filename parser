@@ -1,0 +1,43 @@
+src = "[1,[4,[3]],3,2]";
+p = 0;
+
+if src[0] != "[" and src[-1] != "]":
+    src = "[" + src+ "]";
+elif src[0] != "[" or src[-1] != "]":
+    print "You could not parse!!!";
+    exit(1);
+
+
+def translate_num():
+    global p;
+    global src;
+    ret = 0;
+    while src[p] not in ",]":
+        ret *= 10;
+        ret += int(src[p]);
+        p += 1;
+    return ret;
+
+def translate_list():
+    global p;
+    global src;
+    ret = list();
+    while src[p] != "]":
+        if src[p] == "[":
+            p += 1;
+            ret.append(translate_list());
+        elif src[p] == ",":
+            p += 1;
+            continue;
+        else:
+            ret.append(translate_num());
+    p += 1;
+    return ret;
+
+def parser():
+    global p;
+    p += 1;
+    return translate_list();
+
+print parser();
+    
